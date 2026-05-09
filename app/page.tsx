@@ -9,8 +9,12 @@ type Experience = 'all' | '初心者' | '中級' | '上級';
 type SortKey = 'recent' | 'verified' | 'newest';
 
 export default function HomePage() {
+  // デモ用: 「学生として閲覧中」「社会人として閲覧中」を切替可能。
+  // 本番ではログインユーザーの type から自動決定する想定。
+  const [viewAs, setViewAs] = useState<UserType>('student');
+  const oppositeType: UserType = viewAs === 'student' ? 'pro' : 'student';
+
   const [keyword, setKeyword] = useState('');
-  const [type, setType] = useState<'all' | UserType>('all');
   const [experience, setExperience] = useState<Experience>('all');
   const [vipOnly, setVipOnly] = useState(false);
   const [highclassOnly, setHighclassOnly] = useState(false);
@@ -20,7 +24,8 @@ export default function HomePage() {
 
   const filtered = useMemo(() => {
     let list = users.filter((u) => {
-      if (type !== 'all' && u.type !== type) return false;
+      // 自分と反対側のユーザーのみ表示
+      if (u.type !== oppositeType) return false;
       if (experience !== 'all' && !u.experience.includes(experience)) return false;
       if (vipOnly && !u.vip) return false;
       if (highclassOnly && !u.highclass) return false;
@@ -41,7 +46,7 @@ export default function HomePage() {
       list = [...list].sort((a, b) => b.id.localeCompare(a.id));
     }
     return list;
-  }, [keyword, type, experience, vipOnly, highclassOnly, verifiedOnly, sort]);
+  }, [keyword, experience, vipOnly, highclassOnly, verifiedOnly, sort, oppositeType]);
 
   return (
     <div className="bg-ink-100/40 min-h-screen">
@@ -74,17 +79,7 @@ export default function HomePage() {
         {/* Filters panel (collapsible) */}
         {showFilters && (
           <div className="container-narrow pb-3 space-y-3">
-            <div className="grid grid-cols-3 gap-2">
-              <FilterSelect
-                label="種別"
-                value={type}
-                onChange={(v) => setType(v as 'all' | UserType)}
-                options={[
-                  { value: 'all', label: 'すべて' },
-                  { value: 'student', label: '学生' },
-                  { value: 'pro', label: '社会人' },
-                ]}
-              />
+            <div className="grid grid-cols-2 gap-2">
               <FilterSelect
                 label="経験"
                 value={experience}
@@ -109,14 +104,36 @@ export default function HomePage() {
             </div>
             <div className="flex flex-wrap gap-3 text-xs">
               <Toggle checked={verifiedOnly} onChange={setVerifiedOnly} label="本人確認済" />
-              <Toggle checked={vipOnly} onChange={setVipOnly} label="VIP" />
-              <Toggle checked={highclassOnly} onChange={setHighclassOnly} label="ハイクラス" />
+              {viewAs === 'student' && (
+                <>
+                  <Toggle checked={vipOnly} onChange={setVipOnly} label="VIP" />
+                  <Toggle checked={highclassOnly} onChange={setHighclassOnly} label="ハイクラス" />
+                </>
+              )}
             </div>
           </div>
         )}
       </div>
 
       <div className="container-narrow py-4">
+        {/* デモ視点切替バー */}
+        <div className="mb-3 bg-amber-50 border border-amber-200 rounded-md px-3 py-2 flex items-center justify-between gap-2 text-xs">
+          <div className="text-amber-900 min-w-0">
+            <span className="font-semibold">👁 デモ視点:</span>{' '}
+            <strong>{viewAs === 'student' ? '学生' : '社会人'}として閲覧中</strong>
+            <span className="text-amber-800">
+              （{oppositeType === 'student' ? '学生' : '社会人'}のみ表示）
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setViewAs(viewAs === 'student' ? 'pro' : 'student')}
+            className="shrink-0 bg-white border border-amber-300 text-amber-900 font-semibold px-3 py-1 rounded-full hover:bg-amber-100"
+          >
+            ⇄ 切替
+          </button>
+        </div>
+
         {/* Quick links bar */}
         <div className="flex gap-2 mb-4 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0">
           <QuickLink href="/threads" icon="🀄" label="募集スレッド" />
@@ -126,7 +143,9 @@ export default function HomePage() {
         </div>
 
         <div className="flex items-center justify-between mb-3">
-          <p className="text-sm text-ink-700 font-semibold">{filtered.length}人のユーザー</p>
+          <p className="text-sm text-ink-700 font-semibold">
+            {filtered.length}人の{oppositeType === 'student' ? '学生' : '社会人'}
+          </p>
         </div>
 
         {/* Grid */}
