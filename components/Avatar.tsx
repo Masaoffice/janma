@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { withBasePath } from '@/lib/imagePath';
 
 type Props = {
   src?: string;
@@ -20,7 +21,7 @@ export default function Avatar({ src, alt = '', size = 56, initial = '?' }: Prop
         className="relative rounded-full overflow-hidden bg-ink-100 shrink-0"
         style={{ width: size, height: size }}
       >
-        <Image src={src} alt={alt} fill sizes={`${size}px`} className="object-cover" />
+        <Image src={withBasePath(src)!} alt={alt} fill sizes={`${size}px`} className="object-cover" />
       </div>
     );
   }

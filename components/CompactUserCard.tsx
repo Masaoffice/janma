@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { User } from '@/data/users';
+import { withBasePath } from '@/lib/imagePath';
 import Badge from './Badge';
 
 /**
@@ -16,7 +17,7 @@ export default function CompactUserCard({ user }: { user: User }) {
       <div className="relative aspect-square bg-ink-100">
         {user.photo ? (
           <Image
-            src={user.photo}
+            src={withBasePath(user.photo)!}
             alt={user.nickname}
             fill
             sizes="128px"

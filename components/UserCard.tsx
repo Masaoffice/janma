@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { User } from '@/data/users';
+import { withBasePath } from '@/lib/imagePath';
 import Badge from './Badge';
 
 /**
@@ -18,7 +19,7 @@ export default function UserCard({ user }: { user: User }) {
       <div className="relative aspect-square bg-ink-100">
         {user.photo ? (
           <Image
-            src={user.photo}
+            src={withBasePath(user.photo)!}
             alt={user.nickname}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"

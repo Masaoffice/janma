@@ -5,6 +5,9 @@ const nextConfig = {
   // GitHub Pages の project page (https://masaoffice.github.io/janma/) で公開するため有効化。
   basePath: '/janma',
   assetPrefix: '/janma/',
+  env: {
+    NEXT_PUBLIC_BASE_PATH: '/janma',
+  },
   trailingSlash: true,
 };
 
