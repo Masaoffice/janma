@@ -34,7 +34,7 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
               {user.type === 'student' && <Badge variant="student" />}
               {user.vip && <Badge variant="vip" />}
               {user.highclass && <Badge variant="highclass" />}
-              {user.verified && <Badge variant="verified" />}
+              {user.verified && user.type !== 'student' && <Badge variant="verified" />}
             </div>
 
             <dl className="mt-5 grid sm:grid-cols-2 gap-3 text-sm">

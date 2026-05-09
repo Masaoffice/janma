@@ -27,7 +27,7 @@ export default function MePage() {
               {me?.type === 'student' && <Badge variant="student" />}
               {me?.vip && <Badge variant="vip" />}
               {me?.highclass && <Badge variant="highclass" />}
-              {me?.verified && <Badge variant="verified" />}
+              {me?.verified && me?.type !== 'student' && <Badge variant="verified" />}
             </div>
             <p className="text-sm text-ink-500 mt-0.5">{me?.age}歳・{me?.experience}</p>
             <Link href={`/profile/${CURRENT_USER_ID}`} className="text-xs text-brand-600 hover:underline mt-1 inline-block">

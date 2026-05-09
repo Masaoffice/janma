@@ -38,7 +38,7 @@ export default function DMThreadView({ thread }: { thread: MessageThread }) {
             {other?.type === 'student' && <Badge variant="student" />}
             {other?.vip && <Badge variant="vip" />}
             {other?.highclass && <Badge variant="highclass" />}
-            {other?.verified && <Badge variant="verified" />}
+            {other?.verified && other?.type !== 'student' && <Badge variant="verified" />}
           </div>
           {thread.startedFromThreadId && (
             <Link

@@ -35,7 +35,7 @@ export default function UserCard({ user }: { user: User }) {
           {user.vip && <Badge variant="vip" />}
           {user.highclass && <Badge variant="highclass" />}
         </div>
-        {user.verified && (
+        {user.verified && user.type !== 'student' && (
           <div className="absolute top-2 right-2">
             <Badge variant="verified" />
           </div>

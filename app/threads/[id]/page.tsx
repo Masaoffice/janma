@@ -36,7 +36,7 @@ export default function ThreadDetailPage({ params }: { params: { id: string } })
               {author?.type === 'student' && <Badge variant="student" />}
               {author?.vip && <Badge variant="vip" />}
               {author?.highclass && <Badge variant="highclass" />}
-              {author?.verified && <Badge variant="verified" />}
+              {author?.verified && author?.type !== 'student' && <Badge variant="verified" />}
             </div>
             <div className="text-xs text-ink-500 mt-0.5">投稿日時: {thread.postedAt}</div>
           </div>
