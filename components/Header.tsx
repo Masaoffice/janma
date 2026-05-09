@@ -9,6 +9,8 @@ export default function Header() {
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <Link href="/threads" className="hover:text-brand-600">スレッド</Link>
+          <Link href="/users" className="hover:text-brand-600">ユーザー検索</Link>
+          <Link href="/messages" className="hover:text-brand-600">メッセージ</Link>
           <Link href="/about" className="hover:text-brand-600">サービスについて</Link>
           <Link href="/login" className="hover:text-brand-600">ログイン</Link>
           <Link href="/signup/student" className="btn-primary !py-2 !px-4 text-sm">

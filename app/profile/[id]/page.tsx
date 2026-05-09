@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { users, findUser } from '@/data/users';
 import { threads } from '@/data/threads';
+import { messageThreads, CURRENT_USER_ID } from '@/data/messages';
 import Avatar from '@/components/Avatar';
 import Badge from '@/components/Badge';
 import ThreadCard from '@/components/ThreadCard';
@@ -63,13 +64,29 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
         </div>
 
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
-          <button type="button" className="btn-primary flex-1">
-            メッセージを送る
-          </button>
+          {(() => {
+            const existing = messageThreads.find(
+              (m) =>
+                m.participantIds.includes(user.id) &&
+                m.participantIds.includes(CURRENT_USER_ID)
+            );
+            return existing ? (
+              <Link href={`/messages/${existing.id}`} className="btn-primary flex-1 text-center">
+                メッセージを開く
+              </Link>
+            ) : (
+              <Link href="/messages" className="btn-primary flex-1 text-center">
+                メッセージを送る
+              </Link>
+            );
+          })()}
           <button type="button" className="btn-outline">
             ⋮ 通報
           </button>
         </div>
+        <p className="text-xs text-ink-500 mt-2">
+          初めての相手へのメッセージは「リクエスト」として送られ、相手の承認後に会話が開始されます。
+        </p>
       </div>
 
       {/* Posted threads */}

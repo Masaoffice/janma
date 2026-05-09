@@ -13,6 +13,8 @@ export default function Footer() {
           <ul className="space-y-1">
             <li><Link href="/about" className="hover:text-brand-600">サービスについて</Link></li>
             <li><Link href="/threads" className="hover:text-brand-600">スレッド一覧</Link></li>
+            <li><Link href="/users" className="hover:text-brand-600">ユーザー検索</Link></li>
+            <li><Link href="/messages" className="hover:text-brand-600">メッセージ</Link></li>
             <li><Link href="/signup/student" className="hover:text-brand-600">学生登録</Link></li>
             <li><Link href="/signup/pro" className="hover:text-brand-600">社会人登録（招待制）</Link></li>
           </ul>
