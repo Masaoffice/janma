@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const tabs = [
-  { href: '/users', label: '探す', icon: '🔍' },
+  { href: '/', label: '探す', icon: '🔍' },
   { href: '/messages', label: 'メッセージ', icon: '💬', badge: 1 },
   { href: '/threads/new', label: '投稿', icon: '➕', center: true },
   { href: '/posts', label: 'つぶやき', icon: '💭' },
@@ -18,7 +18,10 @@ export default function BottomTabNav() {
     <nav className="md:hidden fixed bottom-0 inset-x-0 z-20 bg-white border-t border-ink-300">
       <ul className="grid grid-cols-5 h-16">
         {tabs.map((t) => {
-          const active = pathname === t.href || pathname.startsWith(t.href + '/');
+          const active =
+            t.href === '/'
+              ? pathname === '/'
+              : pathname === t.href || pathname.startsWith(t.href + '/');
           return (
             <li key={t.href} className="flex">
               <Link
